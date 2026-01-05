@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>A Special Surprise 🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffd6e8, #cce7ff);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            width: 90%;
+            max-width: 380px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 10;
+            animation: pop 1s ease;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        h1 { color: #ff5e99; font-size: 2em; margin-bottom: 10px; }
+        p { color: #555; font-size: 1.1em; }
+
+        /* Runaway Button */
+        #main-btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 20px;
+            background: #ff5e99;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s;
+            position: relative;
+        }
+
+        /* Gift & Polaroid Styles */
+        .gift-icon {
+            font-size: 80px;
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        .shake { animation: shake 0.5s infinite; }
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(8deg); }
+            75% { transform: rotate(-8deg); }
+        }
+
+        .photo-frame {
+            display: none;
+            background: white;
+            padding: 10px 10px 35px 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transform: rotate(-3deg);
+            margin: 20px auto;
+            border-radius: 5px;
+            animation: photoPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            max-width: 220px;
+            height: 220px;
+            object-fit: cover;
+            border: 1px solid #eee;
+        }
+
+        .polaroid-text {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.2em;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        @keyframes photoPop {
+            0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+            100% { transform: scale(1) rotate(-3deg); opacity: 1; }
+        }
+
+        /* Sparkles & Balloons */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            border-radius: 50%;
+            animation: sparkle-fade 1s forwards;
+            z-index: 9999;
+        }
+
+        @keyframes sparkle-fade {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 45px;
+            height: 55px;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 7s infinite ease-in;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-60vh) translateX(25px); }
+            100% { transform: translateY(-120vh) translateX(-25px); }
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <div id="setup-ui">
+        <h1 id="main-title">Wait! Is it your birthday? 🎂</h1>
+        <p>I have something for you, but you have to catch it first!</p>
+        <button id="main-btn" onmouseover="escapeButton()" onclick="startUnwrap()">Click for Surprise 💝</button>
+    </div>
+
+    <div id="unwrap-ui" class="hidden">
+        <h1 id="unwrap-title">A special delivery! 🎁</h1>
+        <p id="gift-hint">Tap the gift to open it...</p>
+        <div id="gift-icon" class="gift-icon" onclick="handleGiftClick()">🎁</div>
+        
+        <div id="photo-reveal" class="photo-frame">
+            <img src="https://images.unsplash.com/photo-1530103043960-ef38714abb15?auto=format&fit=crop&w=500&q=80" alt="Birthday Image">
+            <div class="polaroid-text">Happy Birthday! ✨</div>
+        </div>
+        
+        <div id="final-msg" class="hidden" style="margin-top: 15px; color: #ff5e99; font-weight: bold;">
+            🎈 You are absolutely wonderful! 🎈<br>
+            May your year be full of magic. 💖
+        </div>
+    </div>
+</div>
+
+<script>
+    let escapes = 0;
+    let giftClicks = 0;
+
+    // 1. RUNAWAY BUTTON LOGIC
+    function escapeButton() {
+        const btn = document.getElementById('main-btn');
+        if (escapes < 4) {
+            const randomX = (Math.random() - 0.5) * 250;
+            const randomY = (Math.random() - 0.5) * 250;
+            btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            btn.innerText = "Too slow! 💨";
+            escapes++;
+        } else {
+            btn.style.transform = "translate(0, 0)";
+            btn.style.background = "#2ecc71";
+            btn.innerText = "Okay, I give up! Click me! ✨";
+        }
+    }
+
+    function startUnwrap() {
+        if (escapes >= 4) {
+            document.getElementById('setup-ui').classList.add('hidden');
+            document.getElementById('unwrap-ui').classList.remove('hidden');
+        }
+    }
+
+    // 2. GIFT UNWRAP LOGIC
+    function handleGiftClick() {
+        giftClicks++;
+        const gift = document.getElementById('gift-icon');
+        const hint = document.getElementById('gift-hint');
+
+        if (giftClicks === 1) {
+            gift.classList.add('shake');
+            hint.innerText = "It's moving! Keep clicking...";
+        } else if (giftClicks === 2) {
+            gift.style.transform = "scale(1.4)";
+            hint.innerText = "ALMOST THERE!";
+        } else if (giftClicks === 3) {
+            gift.classList.add('hidden');
+            hint.classList.add('hidden');
+            document.getElementById('unwrap-title').innerText = "SURPRISE! 🎉";
+            document.getElementById('photo-reveal').style.display = "block";
+            document.getElementById('final-msg').classList.remove('hidden');
+            spawnConfetti();
+        }
+    }
+
+    // 3. BACKGROUND EFFECTS (Balloons & Sparkles)
+    function createBalloon() {
+        const colors = ['#ff9aa2', '#ffdac1', '#b5ead7', '#c7ceea', '#f6c1ff'];
+        const b = document.createElement("div");
+        b.className = "balloon";
+        b.style.left = Math.random() * 100 + "vw";
+        b.style.background = colors[Math.floor(Math.random() * colors.length)];
+        b.style.animationDuration = (Math.random() * 3 + 4) + "s";
+        document.body.appendChild(b);
+        setTimeout(() => b.remove(), 7000);
+    }
+    setInterval(createBalloon, 1500);
+
+    document.addEventListener('mousemove', (e) => {
+        const s = document.createElement('div');
+        s.className = 'sparkle';
+        s.style.left = e.pageX + 'px';
+        s.style.top = e.pageY + 'px';
+        const size = Math.random() * 8 + 4 + 'px';
+        s.style.width = size; s.style.height = size;
+        s.style.background = `hsl(${Math.random() * 360}, 100%, 80%)`;
+        document.body.appendChild(s);
+        setTimeout(() => s.remove(), 1000);
+    });
+
+    function spawnConfetti() {
+        for (let i = 0; i < 100; i++) {
+            let dot = document.createElement("div");
+            dot.style.position = "absolute";
+            dot.style.width = "8px"; dot.style.height = "8px";
+            dot.style.background = `hsl(${Math.random() * 360}, 100%, 60%)`;
+            dot.style.left = Math.random() * window.innerWidth + "px";
+            dot.style.top = "-10px";
+            dot.style.borderRadius = "50%";
+            dot.style.animation = `fall ${Math.random() * 2 + 2}s linear forwards`;
+            document.body.appendChild(dot);
+            setTimeout(() => dot.remove(), 4000);
+        }
+    }
+
+    const style = document.createElement("style");
+    style.innerHTML = `@keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }`;
+    document.head.appendChild(style);
+</script>
+
+</body>
+</html>
