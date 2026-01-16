@@ -3,328 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Surprise 🎉</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <title>EVIL LEADER HQ 😈</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Permanent+Marker&family=Courier+Prime&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #ffd6e8, #cce7ff);
-            min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
-        }
+        :root { --neon-pink: #ff007f; --neon-blue: #00f2ff; }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: #000; color: white; min-height: 100vh; overflow-x: hidden; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+        .hidden { display: none !important; }
 
-        /* --- THE PRANK (BLUE SCREEN) --- */
-        #prank-screen {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #0078d7; 
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
-            z-index: 99999;
-            padding: 10% 5%;
-            box-sizing: border-box;
-            cursor: none;
-        }
-        #prank-screen h1 { font-size: 80px; margin: 0; }
-        #prank-screen p { font-size: 20px; line-height: 1.5; max-width: 600px; }
+        /* --- PAGE 1: THE CATCH (CENTERED) --- */
+        #page1 { text-align: center; z-index: 10; width: 100%; }
+        .game-card { background: white; color: #333; padding: 40px; border-radius: 30px; display: inline-block; box-shadow: 0 0 30px rgba(255,255,255,0.2); position: relative; }
+        #catch-btn { padding: 15px 30px; border: none; border-radius: 50px; background: var(--neon-pink); color: white; font-weight: bold; cursor: pointer; transition: 0.1s; position: relative; }
 
-        /* --- MAIN CARD --- */
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 25px;
-            text-align: center;
-            width: 100%;
-            max-width: 700px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 10;
-        }
+        /* --- PAGE 2: THE GIFT BLAST --- */
+        #gift-icon { font-size: 100px; cursor: pointer; transition: transform 0.1s; display: inline-block; }
+        .blast-flash { position: fixed; top:0; left:0; width:100%; height:100%; background: white; z-index: 100000; display: none; align-items: center; justify-content: center; color: black; font-size: 100px; font-weight: bold; }
 
-        h1 { color: #ff5e99; }
+        /* --- BLUE SCREEN --- */
+        #prank-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0078d7; z-index: 99999; padding: 10% 5%; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; cursor: default; }
+        #fix-btn { background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 5px 15px; cursor: pointer; margin-top: 20px; font-size: 14px; }
+        #fix-btn:hover { background: white; color: #0078d7; }
+
+        /* --- PAGE 3: SURPRISE --- */
+        #page3 { text-align: center; width: 100%; max-width: 800px; }
+        .photo-wall { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 20px 0; }
+        .photo-frame { background: white; padding: 10px 10px 25px 10px; transform: rotate(var(--r)); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .photo-frame img { width: 100%; height: 130px; object-fit: contain; }
+        .spooky-msg { font-family: 'Permanent Marker', cursive; color: var(--neon-pink); font-size: 1.5em; margin-top: 20px; text-shadow: 0 0 10px black; }
+
+        /* --- PAGE 4: COMMAND CENTER (SPOOKY) --- */
+        #page4 { background: #0a0a0a; border: 2px solid #333; padding: 30px; border-radius: 20px; width: 90%; max-width: 600px; text-align: center; position: relative; }
+        .vault-container { display: flex; gap: 15px; margin: 30px 0; }
+        .vault-box { flex: 1; background: #1a1a1a; border: 1px solid #ff007f; padding: 20px; cursor: pointer; font-family: 'Courier Prime', monospace; font-size: 0.8em; color: var(--neon-pink); }
+        .destruct-btn { background: #600; color: white; border: none; padding: 15px; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .gigi-btn { background: #4834d4; color: white; border: none; padding: 20px 40px; border-radius: 50px; cursor: pointer; font-family: 'Permanent Marker', cursive; font-size: 1.5em; margin-top: 20px; display: none; }
         
-        #main-btn {
-            margin-top: 20px; padding: 12px 25px; border: none; border-radius: 20px;
-            background: #ff5e99; color: white; cursor: pointer;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .gift-icon { font-size: 80px; cursor: pointer; display: inline-block; transition: transform 0.2s; }
-        .shake { animation: shake 0.5s infinite; }
-        @keyframes shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(8deg); } 75% { transform: rotate(-8deg); } }
-
-        /* --- PHOTO GALLERY --- */
-        .photo-wall {
-            display: none;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 15px; margin-top: 20px; max-height: 450px; overflow-y: auto; padding: 10px;
-            background: #fafafa; border-radius: 15px;
-        }
-
-        .photo-frame {
-            background: white; padding: 10px 10px 25px 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transform: rotate(var(--r)); transition: transform 0.3s;
-        }
-        .photo-frame:hover { transform: scale(1.05) rotate(0deg); z-index: 20; }
-        .photo-frame img { width: 100%; height: 140px; object-fit: contain; }
-        .polaroid-text { font-family: 'Permanent Marker', cursive; font-size: 0.8em; margin-top: 8px; color: #333; }
-
-        /* --- CAKE --- */
-        .cake-container { display: none; margin: 25px auto; position: relative; width: 120px; height: 90px; }
-        .cake { position: absolute; bottom: 0; width: 120px; height: 60px; background: #f4e4bc; border-radius: 10px; box-shadow: inset 0 -10px 0 #e9d19a; }
-        .icing { position: absolute; top: 30px; width: 120px; height: 20px; background: #ff5e99; border-radius: 20px; }
-        .candle { position: absolute; top: -10px; left: 55px; width: 10px; height: 35px; background: #6c5ce7; border-radius: 3px; }
-        .flame { position: absolute; top: -15px; left: 0; width: 10px; height: 18px; background: orange; border-radius: 50%; animation: flicker 0.5s infinite alternate; }
-        @keyframes flicker { from { transform: scale(1); } to { transform: scale(1.2) translateY(-2px); } }
-
-        /* --- BUTTONS --- */
-        #show-card-btn {
-            display: none; margin: 30px auto; padding: 15px 30px;
-            background: #6c5ce7; color: white; border: none; border-radius: 50px;
-            font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
-        }
-
-        /* --- GREETING CARD --- */
-        #greeting-card { margin-top: 40px; animation: slideUp 1.2s ease-out; width: 100%; }
-        .card-inside {
-            background: #fffafa; border: 2px dashed #ff5e99; border-radius: 15px;
-            padding: 40px 25px; box-shadow: 0 10px 30px rgba(255, 94, 153, 0.15);
-            position: relative;
-        }
-        .birthday-msg { font-style: italic; line-height: 1.8; color: #444; font-size: 1.1em; }
-        .signature { margin-top: 25px; text-align: right; font-weight: bold; color: #ff5e99; }
-
-        /* --- VAULT SECTION --- */
-        .vault-grid { display: flex; justify-content: space-around; gap: 10px; margin-top: 20px; }
-        .vault-box {
-            background: #333; color: gold; padding: 20px; border-radius: 10px;
-            cursor: pointer; flex: 1; font-size: 0.8em; font-weight: bold;
-            transition: background 0.3s; border: 2px solid gold;
-        }
-        .vault-box:hover { background: #444; }
-
-        /* --- GIGI CHAOS --- */
-        .gigi-btn {
-            background: #6c5ce7; color: white; border: none; padding: 15px 30px;
-            border-radius: 50px; cursor: pointer; font-family: 'Permanent Marker', cursive;
-            font-size: 1.2em; margin-top: 30px;
-        }
-        .flying-gigi {
-            position: fixed; pointer-events: none; z-index: 10000;
-            font-family: 'Permanent Marker', cursive; animation: gigi-fly 3s linear forwards;
-        }
-        @keyframes gigi-fly {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) rotate(720deg); opacity: 0; }
-        }
-
-        .extra-section { margin-top: 50px; text-align: center; width: 100%; max-width: 600px; }
-        .divider { border: 0; height: 1px; background: linear-gradient(to right, transparent, #ff5e99, transparent); margin: 40px 0; }
-        .reasons-list { text-align: left; display: inline-block; list-style: none; padding: 0; }
-        .reasons-list li { padding: 12px 0; font-size: 1.1em; border-bottom: 1px solid rgba(0,0,0,0.05); }
-
-        /* --- DECORATIONS --- */
-        .sparkle { position: absolute; pointer-events: none; border-radius: 50%; animation: sparkle-fade 1s forwards; z-index: 9999; }
-        @keyframes sparkle-fade { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(0); opacity: 0; } }
-        .balloon { position: absolute; bottom: -100px; width: 45px; height: 55px; border-radius: 50%; opacity: 0.7; animation: float 7s infinite ease-in; }
-        @keyframes float { 0% { transform: translateY(0); } 100% { transform: translateY(-120vh); } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
-        .hidden { display: none; }
+        /* --- EFFECTS --- */
+        .glitch-red { background: #ff0000 !important; animation: shake 0.1s infinite; }
+        @keyframes shake { 0% { transform: translate(2px, 2px); } 50% { transform: translate(-2px, -2px); } 100% { transform: translate(0,0); } }
+        .flying-gigi { position: fixed; pointer-events: none; z-index: 10000; font-family: 'Permanent Marker', cursive; animation: fly 3s linear forwards; }
+        @keyframes fly { 0% { transform: translate(0, 0) rotate(0deg); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) rotate(720deg); opacity: 0; } }
+        .eye { position: fixed; bottom: 10px; right: 10px; cursor: pointer; opacity: 0.3; }
+        .eye:hover { opacity: 1; }
     </style>
 </head>
 <body>
 
 <div id="prank-screen">
-    <h1>:(</h1>
-    <br>
-    <p>Your PC ran into a problem and needs to restart. We're just collecting some error info, and then we'll restart for you.</p>
-    <p>0% complete</p>
-    <br>
-    <p style="font-size: 14px;">If you call a support person, give them this info:<br>Stop code: SYSTEM_OVERLOADED_BY_LARRY_THE_CAT</p>
+    <h1 style="font-size: 80px; margin:0;">:(</h1><br>
+    <p style="font-size: 20px;">Your PC ran into a problem and needs to restart. We're just collecting some error info (0% complete)</p>
+    <p style="font-size: 14px;">Stop code: SYSTEM_OVERLOADED_BY_LARRY_THE_CAT</p>
+    <button id="fix-btn" onclick="goToSurprise()">FIX SYSTEM_</button>
 </div>
 
-<div class="card">
-    <div id="setup-ui">
-        <h1>Catch for Surprise! 🎂</h1>
-        <p>I hope you're fast enough...</p>
-        <button id="main-btn" onmouseover="escapeButton()" onclick="startUnwrap()">Click for Surprise 💝</button>
+<div id="blast-zone" class="blast-flash">BOOM! 💥</div>
+
+<div id="page1" class="page">
+    <div class="game-card">
+        <h2 style="color: #ff5e99">Catch for Surprise! 🎂</h2>
+        <p>You can't click me! 😜</p>
+        <button id="catch-btn" onmouseover="escapeButton()" onclick="startGiftPhase()">Click for Surprise 💝</button>
+    </div>
+</div>
+
+<div id="page2" class="page hidden">
+    <div class="game-card">
+        <h1>Open Your Gift! 🎁</h1>
+        <p id="gift-count">7 clicks to open...</p>
+        <div id="gift-icon" onclick="tapGift()">🎁</div>
+    </div>
+</div>
+
+<div id="page3" class="page hidden">
+    <h1 style="font-size: 3em; color: var(--neon-blue);">HAPPY BIRTHDAY! 🎉</h1>
+    
+    <div class="photo-wall">
+        <div class="photo-frame" style="--r: -5deg;"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWJ5Zno3cGVxY3dobmdzZGpqMnM3NmswMmk3YXYzdmxsbWJzNGVjdCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/p0ydOvZ6xm8PMe5qlr/giphy.gif"></div>
+        <div class="photo-frame" style="--r: 3deg;"><img src="https://media.giphy.com/media/Im6d35ebkCIiGzonjI/giphy.gif"></div>
+        <div class="photo-frame" style="--r: -2deg;"><img src="https://media.giphy.com/media/6WFScxN6fi95z3YVQD/giphy.gif"></div>
+        <div class="photo-frame" style="--r: 5deg;"><img src="https://media.giphy.com/media/9rO5Aksmn0dHQKXJAu/giphy.gif"></div>
+        <div class="photo-frame" style="--r: -4deg;"><img src="https://media.giphy.com/media/lVHOm4nZ0yfFXI8cgd/giphy.gif"></div>
+        <div class="photo-frame" style="--r: 6deg;"><img src="https://media.giphy.com/media/CAKpbsAk91a9sT5Nak/giphy.gif"></div>
     </div>
 
-    <div id="unwrap-ui" class="hidden">
-        <h1 id="unwrap-title">A special delivery! 🎁</h1>
-        <p id="gift-hint">Tap the gift to open it...</p>
-        <div id="gift-icon" class="gift-icon" onclick="handleGiftClick()">🎁</div>
-        
-        <div id="photo-reveal" class="photo-wall">
-            <div class="photo-frame" style="--r: -4deg;"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWJ5Zno3cGVxY3dobmdzZGpqMnM3NmswMmk3YXYzdmxsbWJzNGVjdCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/p0ydOvZ6xm8PMe5qlr/giphy.gif"><div class="polaroid-text">Larry says Happy Birthday! 🐾</div></div>
-            <div class="photo-frame" style="--r: 3deg;"><img src="https://media.giphy.com/media/Im6d35ebkCIiGzonjI/giphy.gif"><div class="polaroid-text">Lots of Love! ❤️</div></div>
-            <div class="photo-frame" style="--r: -2deg;"><img src="https://media.giphy.com/media/6WFScxN6fi95z3YVQD/giphy.gif"><div class="polaroid-text">Party Time! 🎂</div></div>
-            <div class="photo-frame" style="--r: 5deg;"><img src="https://media.giphy.com/media/9rO5Aksmn0dHQKXJAu/giphy.gif"><div class="polaroid-text">Doggo approves 🐶</div></div>
-        </div>
-
-        <div id="cake-display" class="cake-container">
-            <div class="cake"><div class="icing"></div><div class="candle"><div class="flame"></div></div></div>
-        </div>
-        
-        <div id="final-msg" class="hidden" style="margin-top: 15px; color: #ff5e99; font-weight: bold;">
-            🎈 PSYCH! Happy Birthday! 🎈<br>
-            Even Larry the Cat came to celebrate! 💖
-        </div>
-
-        <button id="show-card-btn" onclick="revealGreetingCard()">Wait, there's more... 👀</button>
-
-        <div id="greeting-card" class="hidden">
-            <div class="card-inside">
-                <h2 style="font-family: 'Permanent Marker', cursive; color: #ff5e99;">To My Favorite Evil Leader, 😈</h2>
-                <p class="birthday-msg">
-                    Happy Birthday! Even though you're a kid, you're the undisputed leader of our chaotic group. I love how you're both weird and funny, and honestly, our cat-video exchanges are the highlight of my day. Stay weird, stay kind, and never stop those evil deeds! <br><br>
-                    Also... <b>Gigi. Gigi. GIGI!</b> (Don't go too insane!)
-                </p>
-                <div class="signature">Bwahahahaha, Nishi</div>
-            </div>
-
-            <hr class="divider">
-
-            <div class="extra-section">
-                <h3>The "Official" Stats 🌟</h3>
-                <ul class="reasons-list">
-                    <li>🐈 **Master of Cats:** Nobody shares better cat memes than you.</li>
-                    <li>👑 **The Tiny Boss:** A leader in a kid's body, and we wouldn't have it any other way.</li>
-                    <li>😈 **Professional Villain:** Always up for doing evil deeds.</li>
-                    <li>🤡 **Chief Weirdo:** Your sense of humor is top-tier.</li>
-                    <li>💖 **Secretly Kind:** Beneath the "evil," you're actually the kindest kid around.</li>
-                    <li>👯 **Friend Overload:** You have so many friends we might have to "murder" some to make room... jk (unless? 🔪).</li>
-                </ul>
-
-                <hr class="divider">
-                
-                <h3>The Evil Leader's Secret Vault 🔒</h3>
-                <p style="font-size: 0.8em;">(Click to decrypt secrets)</p>
-                <div class="vault-grid">
-                    <div class="vault-box" onclick="this.innerText='SECRET 1: You are 100% more likely to start a cat revolution.'">TOP SECRET</div>
-                    <div class="vault-box" onclick="this.innerText='SECRET 2: Your weirdness is actually your superpower.'">CLASSIFIED</div>
-                    <div class="vault-box" onclick="this.innerText='SECRET 3: Gigi is watching you right now. 👁️'">WARNING</div>
-                </div>
-
-                <br>
-                <button class="gigi-btn" onclick="makeGigiFly()">GIMME GIGI 🤪</button>
-            </div>
-        </div>
+    <div class="spooky-msg">
+        GUESS WHO IS UNDER THE BED... <br>
+        LARRY WITH A SURPRISE CAKE HAHAHAHA! 🎂😈
     </div>
+    
+    <button id="catch-btn" style="margin-top: 30px;" onclick="goToHQ()">Wait, there's more... 👀</button>
+</div>
+
+<div id="page4" class="page hidden">
+    <h1 style="font-family: 'Courier Prime', monospace; color: var(--neon-blue);">EVIL LEADER HQ 😈</h1>
+    <p>Authorized Access: <b>Nishi</b></p>
+
+    <div class="vault-container">
+        <div class="vault-box" onclick="this.innerText='Gigi is tracking you...'">CLASSIFIED</div>
+        <div class="vault-box" onclick="this.innerText='Nishi knows everything.'">TOP SECRET</div>
+        <div class="vault-box" onclick="this.innerText='Cake in Sector 7.'">ENCRYPTED</div>
+    </div>
+
+    <button class="destruct-btn" onclick="selfDestruct()">⚠️ SELF-DESTRUCT ⚠️</button>
+    <button id="gigi-final" class="gigi-btn" onclick="gigiChaos()">GIMME GIGI 🤪</button>
+    
+    <div class="eye" onclick="alert('I\'m under the bed... - Larry 👁️')">👁️</div>
 </div>
 
 <script>
     let escapes = 0; let giftClicks = 0;
 
+    // --- PAGE 1 LOGIC ---
     function escapeButton() {
-        const btn = document.getElementById('main-btn');
-        if (escapes < 4) {
-            btn.style.transform = `translate(${(Math.random()-0.5)*250}px, ${(Math.random()-0.5)*250}px)`;
-            btn.innerText = "Too slow! 💨";
+        if (escapes < 10) {
+            const btn = document.getElementById('catch-btn');
+            const taunts = ["Too slow!", "Missed!", "Try harder!", "Getting tired?", "Not even close!"];
+            btn.style.position = 'absolute';
+            btn.style.left = Math.random() * 80 + '%';
+            btn.style.top = Math.random() * 80 + '%';
+            btn.innerText = taunts[Math.floor(Math.random()*taunts.length)];
             escapes++;
         } else {
-            btn.style.transform = "translate(0, 0)";
-            btn.style.background = "#2ecc71";
-            btn.innerText = "Okay, I give up! Click! ✨";
+            const btn = document.getElementById('catch-btn');
+            btn.style.position = 'relative'; btn.style.left = '0'; btn.style.top = '0';
+            btn.style.background = "#2ecc71"; btn.innerText = "Fine! Click Me! ✨";
         }
     }
 
-    function startUnwrap() {
-        if (escapes >= 4) {
-            document.getElementById('setup-ui').classList.add('hidden');
-            document.getElementById('unwrap-ui').classList.remove('hidden');
+    function startGiftPhase() {
+        if (escapes >= 10) {
+            document.getElementById('page1').classList.add('hidden');
+            document.getElementById('page2').classList.remove('hidden');
         }
     }
 
-    function handleGiftClick() {
+    // --- PAGE 2 LOGIC ---
+    function tapGift() {
         giftClicks++;
         const gift = document.getElementById('gift-icon');
-        if (giftClicks === 1) gift.classList.add('shake');
-        else if (giftClicks === 3) {
-            document.getElementById('prank-screen').style.display = 'block';
+        gift.style.transform = `scale(${1 + giftClicks * 0.2}) rotate(${giftClicks * 5}deg)`;
+        document.getElementById('gift-count').innerText = `${7 - giftClicks} clicks left...`;
+        
+        if (giftClicks >= 7) {
+            document.getElementById('blast-zone').style.display = 'flex';
             setTimeout(() => {
-                document.getElementById('prank-screen').style.display = 'none';
-                showRealSurprise();
-            }, 3000);
+                document.getElementById('blast-zone').style.display = 'none';
+                document.getElementById('prank-screen').style.display = 'block';
+            }, 600);
         }
     }
 
-    function showRealSurprise() {
-        document.getElementById('gift-icon').classList.add('hidden');
-        document.getElementById('gift-hint').classList.add('hidden');
-        document.getElementById('unwrap-title').innerText = "SURPRISE! 🎉";
-        document.getElementById('photo-reveal').style.display = "grid";
-        document.getElementById('cake-display').style.display = "block";
-        document.getElementById('final-msg').classList.remove('hidden');
-        setTimeout(() => { document.getElementById('show-card-btn').style.display = "block"; }, 1000);
+    // --- PAGE 3 LOGIC ---
+    function goToSurprise() {
+        document.getElementById('prank-screen').style.display = 'none';
+        document.getElementById('page2').classList.add('hidden');
+        document.getElementById('page3').classList.remove('hidden');
+        document.body.style.background = "linear-gradient(135deg, #1a001a, #000000)";
         spawnConfetti();
     }
 
-    function revealGreetingCard() {
-        document.getElementById('show-card-btn').style.display = "none";
-        document.getElementById('greeting-card').classList.remove('hidden');
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    function goToHQ() {
+        document.getElementById('page3').classList.add('hidden');
+        document.getElementById('page4').classList.remove('hidden');
     }
 
-    function makeGigiFly() {
-        for(let i=0; i<20; i++) {
+    // --- PAGE 4 LOGIC ---
+    function selfDestruct() {
+        document.body.classList.add('glitch-red');
+        setTimeout(() => {
+            alert("SYSTEM OVERLOAD: GIGI RELEASED INTO YOUR ROOM.");
+            document.getElementById('gigi-final').style.display = 'inline-block';
+            document.body.classList.remove('glitch-red');
+        }, 2000);
+    }
+
+    function gigiChaos() {
+        for(let i=0; i<50; i++) {
             const g = document.createElement('div');
-            g.className = 'flying-gigi';
-            g.innerText = 'GIGI!';
-            g.style.left = Math.random() * window.innerWidth + 'px';
-            g.style.top = Math.random() * window.innerHeight + 'px';
+            g.className = 'flying-gigi'; g.innerText = Math.random() > 0.5 ? 'GIGI!' : 'larry is watching...';
+            g.style.left = '50%'; g.style.top = '50%';
             g.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-            g.style.fontSize = (Math.random() * 40 + 20) + 'px';
-            g.style.setProperty('--tx', (Math.random() - 0.5) * 800 + 'px');
-            g.style.setProperty('--ty', (Math.random() - 0.5) * 800 + 'px');
+            g.style.setProperty('--tx', (Math.random() - 0.5) * 1200 + 'px');
+            g.style.setProperty('--ty', (Math.random() - 0.5) * 1200 + 'px');
             document.body.appendChild(g);
             setTimeout(() => g.remove(), 3000);
         }
     }
 
-    setInterval(() => {
-        const b = document.createElement("div");
-        b.className = "balloon";
-        b.style.left = Math.random() * 100 + "vw";
-        b.style.background = `hsl(${Math.random()*360}, 100%, 80%)`;
-        document.body.appendChild(b);
-        setTimeout(() => b.remove(), 7000);
-    }, 1500);
-
-    document.addEventListener('mousemove', (e) => {
-        const s = document.createElement('div');
-        s.className = 'sparkle';
-        s.style.left = e.pageX + 'px'; s.style.top = e.pageY + 'px';
-        const size = Math.random() * 8 + 4 + 'px';
-        s.style.width = size; s.style.height = size;
-        s.style.background = `hsl(${Math.random() * 360}, 100%, 80%)`;
-        document.body.appendChild(s);
-        setTimeout(() => s.remove(), 1000);
-    });
-
     function spawnConfetti() {
-        for (let i = 0; i < 100; i++) {
-            let dot = document.createElement("div");
-            dot.style.position = "absolute";
-            dot.style.width = "8px"; dot.style.height = "8px";
-            dot.style.background = `hsl(${Math.random() * 360}, 100%, 60%)`;
-            dot.style.left = Math.random() * window.innerWidth + "px";
-            dot.style.top = "-10px";
-            dot.style.animation = `fall ${Math.random() * 2 + 2}s linear forwards`;
-            document.body.appendChild(dot);
-            setTimeout(() => dot.remove(), 4000);
+        for (let i = 0; i < 50; i++) {
+            let d = document.createElement("div");
+            d.style.position = "fixed"; d.style.width = "8px"; d.style.height = "8px";
+            d.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            d.style.left = Math.random() * 100 + "vw"; d.style.top = "-10px";
+            d.style.animation = `fly 3s linear forwards`;
+            document.body.appendChild(d);
         }
     }
-    const style = document.createElement("style");
-    style.innerHTML = `@keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }`;
-    document.head.appendChild(style);
 </script>
 
 </body>
