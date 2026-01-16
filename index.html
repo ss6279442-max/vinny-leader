@@ -84,26 +84,38 @@
         .flame { position: absolute; top: -15px; left: 0; width: 10px; height: 18px; background: orange; border-radius: 50%; animation: flicker 0.5s infinite alternate; }
         @keyframes flicker { from { transform: scale(1); } to { transform: scale(1.2) translateY(-2px); } }
 
+        /* --- BUTTONS --- */
+        #show-card-btn {
+            display: none; margin: 30px auto; padding: 15px 30px;
+            background: #6c5ce7; color: white; border: none; border-radius: 50px;
+            font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+        }
+
         /* --- GREETING CARD --- */
         #greeting-card { margin-top: 40px; animation: slideUp 1.2s ease-out; width: 100%; }
         .card-inside {
-            background: #fffafa;
-            border: 2px dashed #ff5e99;
-            border-radius: 15px;
-            padding: 40px 25px;
-            box-shadow: 0 10px 30px rgba(255, 94, 153, 0.15);
+            background: #fffafa; border: 2px dashed #ff5e99; border-radius: 15px;
+            padding: 40px 25px; box-shadow: 0 10px 30px rgba(255, 94, 153, 0.15);
             position: relative;
         }
         .birthday-msg { font-style: italic; line-height: 1.8; color: #444; font-size: 1.1em; }
         .signature { margin-top: 25px; text-align: right; font-weight: bold; color: #ff5e99; }
 
-        /* --- GIGI CHAOS BUTTON --- */
+        /* --- VAULT SECTION --- */
+        .vault-grid { display: flex; justify-content: space-around; gap: 10px; margin-top: 20px; }
+        .vault-box {
+            background: #333; color: gold; padding: 20px; border-radius: 10px;
+            cursor: pointer; flex: 1; font-size: 0.8em; font-weight: bold;
+            transition: background 0.3s; border: 2px solid gold;
+        }
+        .vault-box:hover { background: #444; }
+
+        /* --- GIGI CHAOS --- */
         .gigi-btn {
             background: #6c5ce7; color: white; border: none; padding: 15px 30px;
             border-radius: 50px; cursor: pointer; font-family: 'Permanent Marker', cursive;
-            font-size: 1.2em; margin-top: 30px; transition: transform 0.2s, background 0.2s;
+            font-size: 1.2em; margin-top: 30px;
         }
-        .gigi-btn:hover { background: #ff5e99; transform: scale(1.1); }
         .flying-gigi {
             position: fixed; pointer-events: none; z-index: 10000;
             font-family: 'Permanent Marker', cursive; animation: gigi-fly 3s linear forwards;
@@ -113,7 +125,6 @@
             100% { transform: translate(var(--tx), var(--ty)) rotate(720deg); opacity: 0; }
         }
 
-        /* --- EXTRA SECTIONS --- */
         .extra-section { margin-top: 50px; text-align: center; width: 100%; max-width: 600px; }
         .divider { border: 0; height: 1px; background: linear-gradient(to right, transparent, #ff5e99, transparent); margin: 40px 0; }
         .reasons-list { text-align: left; display: inline-block; list-style: none; padding: 0; }
@@ -156,8 +167,6 @@
             <div class="photo-frame" style="--r: 3deg;"><img src="https://media.giphy.com/media/Im6d35ebkCIiGzonjI/giphy.gif"><div class="polaroid-text">Lots of Love! ❤️</div></div>
             <div class="photo-frame" style="--r: -2deg;"><img src="https://media.giphy.com/media/6WFScxN6fi95z3YVQD/giphy.gif"><div class="polaroid-text">Party Time! 🎂</div></div>
             <div class="photo-frame" style="--r: 5deg;"><img src="https://media.giphy.com/media/9rO5Aksmn0dHQKXJAu/giphy.gif"><div class="polaroid-text">Doggo approves 🐶</div></div>
-            <div class="photo-frame" style="--r: -5deg;"><img src="https://media.giphy.com/media/lVHOm4nZ0yfFXI8cgd/giphy.gif"><div class="polaroid-text">For You! 🌸</div></div>
-            <div class="photo-frame" style="--r: 4deg;"><img src="https://media.giphy.com/media/CAKpbsAk91a9sT5Nak/giphy.gif"><div class="polaroid-text">Yummy! 🍰</div></div>
         </div>
 
         <div id="cake-display" class="cake-container">
@@ -169,6 +178,8 @@
             Even Larry the Cat came to celebrate! 💖
         </div>
 
+        <button id="show-card-btn" onclick="revealGreetingCard()">Wait, there's more... 👀</button>
+
         <div id="greeting-card" class="hidden">
             <div class="card-inside">
                 <h2 style="font-family: 'Permanent Marker', cursive; color: #ff5e99;">To My Favorite Evil Leader, 😈</h2>
@@ -176,7 +187,7 @@
                     Happy Birthday! Even though you're a kid, you're the undisputed leader of our chaotic group. I love how you're both weird and funny, and honestly, our cat-video exchanges are the highlight of my day. Stay weird, stay kind, and never stop those evil deeds! <br><br>
                     Also... <b>Gigi. Gigi. GIGI!</b> (Don't go too insane!)
                 </p>
-                <div class="signature">Bwahahahaha, [Your Name]</div>
+                <div class="signature">Bwahahahaha, Nishi</div>
             </div>
 
             <hr class="divider">
@@ -192,16 +203,25 @@
                     <li>👯 **Friend Overload:** You have so many friends we might have to "murder" some to make room... jk (unless? 🔪).</li>
                 </ul>
 
+                <hr class="divider">
+                
+                <h3>The Evil Leader's Secret Vault 🔒</h3>
+                <p style="font-size: 0.8em;">(Click to decrypt secrets)</p>
+                <div class="vault-grid">
+                    <div class="vault-box" onclick="this.innerText='SECRET 1: You are 100% more likely to start a cat revolution.'">TOP SECRET</div>
+                    <div class="vault-box" onclick="this.innerText='SECRET 2: Your weirdness is actually your superpower.'">CLASSIFIED</div>
+                    <div class="vault-box" onclick="this.innerText='SECRET 3: Gigi is watching you right now. 👁️'">WARNING</div>
+                </div>
+
                 <br>
-                <button class="gigi-btn" onclick="makeGigiFly()">CLICK FOR GIGI 🤪</button>
+                <button class="gigi-btn" onclick="makeGigiFly()">GIMME GIGI 🤪</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    let escapes = 0;
-    let giftClicks = 0;
+    let escapes = 0; let giftClicks = 0;
 
     function escapeButton() {
         const btn = document.getElementById('main-btn');
@@ -243,16 +263,16 @@
         document.getElementById('photo-reveal').style.display = "grid";
         document.getElementById('cake-display').style.display = "block";
         document.getElementById('final-msg').classList.remove('hidden');
-        
-        setTimeout(() => {
-            document.getElementById('greeting-card').classList.remove('hidden');
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-        }, 1500);
-
+        setTimeout(() => { document.getElementById('show-card-btn').style.display = "block"; }, 1000);
         spawnConfetti();
     }
 
-    /* --- THE GIGI CHAOS LOGIC --- */
+    function revealGreetingCard() {
+        document.getElementById('show-card-btn').style.display = "none";
+        document.getElementById('greeting-card').classList.remove('hidden');
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
     function makeGigiFly() {
         for(let i=0; i<20; i++) {
             const g = document.createElement('div');
@@ -262,17 +282,13 @@
             g.style.top = Math.random() * window.innerHeight + 'px';
             g.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
             g.style.fontSize = (Math.random() * 40 + 20) + 'px';
-            
-            // Random movement targets
             g.style.setProperty('--tx', (Math.random() - 0.5) * 800 + 'px');
             g.style.setProperty('--ty', (Math.random() - 0.5) * 800 + 'px');
-            
             document.body.appendChild(g);
             setTimeout(() => g.remove(), 3000);
         }
     }
 
-    // Floating Balloons
     setInterval(() => {
         const b = document.createElement("div");
         b.className = "balloon";
@@ -282,7 +298,6 @@
         setTimeout(() => b.remove(), 7000);
     }, 1500);
 
-    // Mouse Sparkles
     document.addEventListener('mousemove', (e) => {
         const s = document.createElement('div');
         s.className = 'sparkle';
