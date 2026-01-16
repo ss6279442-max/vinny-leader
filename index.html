@@ -14,9 +14,9 @@
             min-height: 100vh;
             overflow-x: hidden;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
         /* --- THE PRANK (BLUE SCREEN) --- */
@@ -42,7 +42,7 @@
             border-radius: 25px;
             text-align: center;
             width: 100%;
-            max-width: 700px; /* Widened for more GIFs */
+            max-width: 700px; 
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             position: relative;
             z-index: 10;
@@ -84,11 +84,47 @@
         .flame { position: absolute; top: -15px; left: 0; width: 10px; height: 18px; background: orange; border-radius: 50%; animation: flicker 0.5s infinite alternate; }
         @keyframes flicker { from { transform: scale(1); } to { transform: scale(1.2) translateY(-2px); } }
 
+        /* --- GREETING CARD --- */
+        #greeting-card { margin-top: 40px; animation: slideUp 1.2s ease-out; width: 100%; }
+        .card-inside {
+            background: #fffafa;
+            border: 2px dashed #ff5e99;
+            border-radius: 15px;
+            padding: 40px 25px;
+            box-shadow: 0 10px 30px rgba(255, 94, 153, 0.15);
+            position: relative;
+        }
+        .birthday-msg { font-style: italic; line-height: 1.8; color: #444; font-size: 1.1em; }
+        .signature { margin-top: 25px; text-align: right; font-weight: bold; color: #ff5e99; }
+
+        /* --- GIGI CHAOS BUTTON --- */
+        .gigi-btn {
+            background: #6c5ce7; color: white; border: none; padding: 15px 30px;
+            border-radius: 50px; cursor: pointer; font-family: 'Permanent Marker', cursive;
+            font-size: 1.2em; margin-top: 30px; transition: transform 0.2s, background 0.2s;
+        }
+        .gigi-btn:hover { background: #ff5e99; transform: scale(1.1); }
+        .flying-gigi {
+            position: fixed; pointer-events: none; z-index: 10000;
+            font-family: 'Permanent Marker', cursive; animation: gigi-fly 3s linear forwards;
+        }
+        @keyframes gigi-fly {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) rotate(720deg); opacity: 0; }
+        }
+
+        /* --- EXTRA SECTIONS --- */
+        .extra-section { margin-top: 50px; text-align: center; width: 100%; max-width: 600px; }
+        .divider { border: 0; height: 1px; background: linear-gradient(to right, transparent, #ff5e99, transparent); margin: 40px 0; }
+        .reasons-list { text-align: left; display: inline-block; list-style: none; padding: 0; }
+        .reasons-list li { padding: 12px 0; font-size: 1.1em; border-bottom: 1px solid rgba(0,0,0,0.05); }
+
         /* --- DECORATIONS --- */
         .sparkle { position: absolute; pointer-events: none; border-radius: 50%; animation: sparkle-fade 1s forwards; z-index: 9999; }
         @keyframes sparkle-fade { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(0); opacity: 0; } }
         .balloon { position: absolute; bottom: -100px; width: 45px; height: 55px; border-radius: 50%; opacity: 0.7; animation: float 7s infinite ease-in; }
         @keyframes float { 0% { transform: translateY(0); } 100% { transform: translateY(-120vh); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
         .hidden { display: none; }
     </style>
 </head>
@@ -117,15 +153,11 @@
         
         <div id="photo-reveal" class="photo-wall">
             <div class="photo-frame" style="--r: -4deg;"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWJ5Zno3cGVxY3dobmdzZGpqMnM3NmswMmk3YXYzdmxsbWJzNGVjdCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/p0ydOvZ6xm8PMe5qlr/giphy.gif"><div class="polaroid-text">Larry says Happy Birthday! 🐾</div></div>
-            
             <div class="photo-frame" style="--r: 3deg;"><img src="https://media.giphy.com/media/Im6d35ebkCIiGzonjI/giphy.gif"><div class="polaroid-text">Lots of Love! ❤️</div></div>
             <div class="photo-frame" style="--r: -2deg;"><img src="https://media.giphy.com/media/6WFScxN6fi95z3YVQD/giphy.gif"><div class="polaroid-text">Party Time! 🎂</div></div>
             <div class="photo-frame" style="--r: 5deg;"><img src="https://media.giphy.com/media/9rO5Aksmn0dHQKXJAu/giphy.gif"><div class="polaroid-text">Doggo approves 🐶</div></div>
             <div class="photo-frame" style="--r: -5deg;"><img src="https://media.giphy.com/media/lVHOm4nZ0yfFXI8cgd/giphy.gif"><div class="polaroid-text">For You! 🌸</div></div>
             <div class="photo-frame" style="--r: 4deg;"><img src="https://media.giphy.com/media/CAKpbsAk91a9sT5Nak/giphy.gif"><div class="polaroid-text">Yummy! 🍰</div></div>
-            <div class="photo-frame" style="--r: -3deg;"><img src="https://media.giphy.com/media/cRKRr1j0bcCUPGhcdx/giphy.gif"><div class="polaroid-text">Floating away 🎈</div></div>
-            <div class="photo-frame" style="--r: 2deg;"><img src="https://media.giphy.com/media/yXhSjI8XO2CmWmsx2P/giphy.gif"><div class="polaroid-text">Sparkle sparkle ✨</div></div>
-            <div class="photo-frame" style="--r: -1deg;"><img src="https://media.giphy.com/media/wUrWBABma4rS244Uun/giphy.gif"><div class="polaroid-text">Celebrate! 🥳</div></div>
         </div>
 
         <div id="cake-display" class="cake-container">
@@ -135,6 +167,34 @@
         <div id="final-msg" class="hidden" style="margin-top: 15px; color: #ff5e99; font-weight: bold;">
             🎈 PSYCH! Happy Birthday! 🎈<br>
             Even Larry the Cat came to celebrate! 💖
+        </div>
+
+        <div id="greeting-card" class="hidden">
+            <div class="card-inside">
+                <h2 style="font-family: 'Permanent Marker', cursive; color: #ff5e99;">To My Favorite Evil Leader, 😈</h2>
+                <p class="birthday-msg">
+                    Happy Birthday! Even though you're a kid, you're the undisputed leader of our chaotic group. I love how you're both weird and funny, and honestly, our cat-video exchanges are the highlight of my day. Stay weird, stay kind, and never stop those evil deeds! <br><br>
+                    Also... <b>Gigi. Gigi. GIGI!</b> (Don't go too insane!)
+                </p>
+                <div class="signature">Bwahahahaha, [Your Name]</div>
+            </div>
+
+            <hr class="divider">
+
+            <div class="extra-section">
+                <h3>The "Official" Stats 🌟</h3>
+                <ul class="reasons-list">
+                    <li>🐈 **Master of Cats:** Nobody shares better cat memes than you.</li>
+                    <li>👑 **The Tiny Boss:** A leader in a kid's body, and we wouldn't have it any other way.</li>
+                    <li>😈 **Professional Villain:** Always up for doing evil deeds.</li>
+                    <li>🤡 **Chief Weirdo:** Your sense of humor is top-tier.</li>
+                    <li>💖 **Secretly Kind:** Beneath the "evil," you're actually the kindest kid around.</li>
+                    <li>👯 **Friend Overload:** You have so many friends we might have to "murder" some to make room... jk (unless? 🔪).</li>
+                </ul>
+
+                <br>
+                <button class="gigi-btn" onclick="makeGigiFly()">CLICK FOR GIGI 🤪</button>
+            </div>
         </div>
     </div>
 </div>
@@ -168,7 +228,6 @@
         const gift = document.getElementById('gift-icon');
         if (giftClicks === 1) gift.classList.add('shake');
         else if (giftClicks === 3) {
-            // TRIGGER BSOD PRANK
             document.getElementById('prank-screen').style.display = 'block';
             setTimeout(() => {
                 document.getElementById('prank-screen').style.display = 'none';
@@ -184,7 +243,33 @@
         document.getElementById('photo-reveal').style.display = "grid";
         document.getElementById('cake-display').style.display = "block";
         document.getElementById('final-msg').classList.remove('hidden');
+        
+        setTimeout(() => {
+            document.getElementById('greeting-card').classList.remove('hidden');
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }, 1500);
+
         spawnConfetti();
+    }
+
+    /* --- THE GIGI CHAOS LOGIC --- */
+    function makeGigiFly() {
+        for(let i=0; i<20; i++) {
+            const g = document.createElement('div');
+            g.className = 'flying-gigi';
+            g.innerText = 'GIGI!';
+            g.style.left = Math.random() * window.innerWidth + 'px';
+            g.style.top = Math.random() * window.innerHeight + 'px';
+            g.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            g.style.fontSize = (Math.random() * 40 + 20) + 'px';
+            
+            // Random movement targets
+            g.style.setProperty('--tx', (Math.random() - 0.5) * 800 + 'px');
+            g.style.setProperty('--ty', (Math.random() - 0.5) * 800 + 'px');
+            
+            document.body.appendChild(g);
+            setTimeout(() => g.remove(), 3000);
+        }
     }
 
     // Floating Balloons
